@@ -6,6 +6,7 @@ import com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceEntities.Device;
 
 public interface DeviceService {
 	
-public List<Device> getDevice();
+	 List<Device> getDevice();
+	 Device saveDevice(Device device);
 
 }

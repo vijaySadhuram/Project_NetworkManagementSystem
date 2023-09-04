@@ -1,8 +1,20 @@
 package com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceEntities;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "DEVICE")
 public class Device {
+	
 // parameter of device
-	private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
     private String name;
     private String version;
     private String brand;
@@ -12,7 +24,7 @@ public class Device {
 	 * @param version
 	 * @param brand
 	 */
-	public Device(Long id, String name, String version, String brand) {
+	public Device(long id, String name, String version, String brand) {
 		super();
 		this.id = id;
 		this.name = name;
