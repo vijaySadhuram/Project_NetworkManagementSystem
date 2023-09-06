@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceEntities.Device;
 import com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceService.DeviceService;
+import com.NetworkDeviceMS.NetworkDeviceManagementSystem.Exception.ResourceNotFoundException;
 import com.NetworkDeviceMS.NetworkDeviceManagementSystem.repository.DeviceRepository;
 //Controller Layer-->Handle the HTTP Request to the Service layer
 @RestController
@@ -35,21 +37,38 @@ public class DeviceController {
 			return new ResponseEntity<String>("Error Occured while saving the data into dataBase", HttpStatus.BAD_REQUEST);
 		}
 	}
-//	users to update existing device information.
-	@PutMapping("/devices")
-	public ResponseEntity<String> updateDevice(@PathVariable long id,@RequestBody Device  device){
-		 Device updateDevice=
-		 if (updateDevice != null)
-	            return new ResponseEntity<String>("updated device infomation successfully into database",HttpStatus.OK);
-	        } else {
-	            return ResponseEntity.notFound().build();
-	        }
-	              	
+	
+
+	
+	@PutMapping("/devices/{id}")
+    public ResponseEntity<String> updateDevice(@PathVariable("id") Long id, @RequestBody Device updatedDevice) {
+        Device updated = deviceservice.updateDevice(id, updatedDevice);
+        if (updated != null) {
+        	return new ResponseEntity<String>("Deviced update data Successfully!..", HttpStatus.OK);
+        } else {
+        	return new ResponseEntity<String>("Error Occured while updating the data into dataBase", HttpStatus.BAD_REQUEST);   
+        	}
+    }
+	
+	@DeleteMapping("devices/{id}")
+	public ResponseEntity<String> deleteDevice(@PathVariable Long id) {
+		ResponseEntity<String> responseEntity;
+		try {
+			deviceservice.deleteDevice(id);
+			responseEntity = new ResponseEntity<String>("Deleted the data successfully!...", HttpStatus.OK);
+		} catch (ResourceNotFoundException exception) {
+			responseEntity = new ResponseEntity<String>("Error Occured while deleting the data from dataBase",
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return responseEntity;
 	}
 	
 	
 	
-	//Get the Devices info
+	/*
+	 * the below method returns list of devices
+	 */
 	@GetMapping("/devices")
 	public List<Device> getDevice(){
         //call the service
