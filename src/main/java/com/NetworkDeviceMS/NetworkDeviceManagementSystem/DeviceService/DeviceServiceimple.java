@@ -1,12 +1,13 @@
 package com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceService;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceEntities.Device;
+import com.NetworkDeviceMS.NetworkDeviceManagementSystem.Exception.ResourceNotFoundException;
 import com.NetworkDeviceMS.NetworkDeviceManagementSystem.repository.DeviceRepository;
 
 @Service
@@ -19,17 +20,35 @@ public class DeviceServiceimple implements DeviceService {
 	public Device saveDevice(Device device) {
 		return deviceRepository.save(device);
 	}
-
-//	List<Device> list;
-//	public DeviceServiceimple() {
-//		list=new ArrayList<>();
-//		list.add(new Device(1,"Router123","V2.0","Cisco"));
-//		list.add(new Device(2,"Switch456","V3.1","HP"));
-//		}
 	
+	@Override
+	public Device updateDevice(Long id, Device updatedDevice) {
+		Optional<Device> optionalDevice = deviceRepository.findById(id);
+        if (optionalDevice.isPresent()) {
+            updatedDevice.setId(id);
+            return deviceRepository.save(updatedDevice);
+        } else {
+            throw new ResourceNotFoundException("The source which you trying to update is not found");
+        }
+    }
+
 	@Override
 	public List<Device> getDevice() {
 		return deviceRepository.findAll();
 	}
+	
+	@Override
+	public void deleteDevice(Long id) {
+		Optional<Device> optionalDevice = deviceRepository.findById(id);
+		if (optionalDevice.isPresent()) {
+			deviceRepository.deleteById(id);
+
+		} else {
+			throw new ResourceNotFoundException("The source which you trying to delete is not found");
+		}
+	}
+
+	
+	
 
 }
