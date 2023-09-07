@@ -1,6 +1,7 @@
 package com.NetworkDeviceMS.NetworkDeviceManagementSystem.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,6 @@ public class DeviceController {
 		}
 	}
 	
-
-	
 	@PutMapping("/devices/{id}")
     public ResponseEntity<String> updateDevice(@PathVariable("id") Long id, @RequestBody Device updatedDevice) {
         Device updated = deviceservice.updateDevice(id, updatedDevice);
@@ -64,8 +63,6 @@ public class DeviceController {
 		return responseEntity;
 	}
 	
-	
-	
 	/*
 	 * the below method returns list of devices
 	 */
@@ -75,6 +72,24 @@ public class DeviceController {
 		 return deviceservice.getDevice();	
 	}
 	
+    /*	
+	Count the Number of devices
+   */	
 	
+	@GetMapping("/count")
+    public ResponseEntity<String> getDeviceCount() {
+        long count = deviceservice.getDeviceCount();
+        String message = "The number of devices is " + count;
+        return ResponseEntity.ok(message);
+    }
 
+	/*	
+	fetch data based on brand-distribution
+    */	
+
+    @GetMapping("/brand-distribution")
+    public ResponseEntity<Map<String, Long>> getDeviceBrandDistribution() {
+        Map<String, Long> brandDistribution = deviceservice.getDeviceBrandDistribution();
+        return ResponseEntity.ok(brandDistribution);
+    } 
 }

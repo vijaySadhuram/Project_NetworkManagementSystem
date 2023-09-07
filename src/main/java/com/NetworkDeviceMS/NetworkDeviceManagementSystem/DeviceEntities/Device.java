@@ -65,7 +65,4 @@ public class Device {
 		return "Device [id=" + id + ", name=" + name + ", version=" + version + ", brand=" + brand + "]";
 	}
 	
-    
-    
-
 }

@@ -6,5 +6,4 @@ import com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceEntities.Device;
 
 public interface DeviceRepository extends JpaRepository<Device, Long>{
 	
-
 }

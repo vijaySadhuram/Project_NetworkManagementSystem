@@ -1,6 +1,8 @@
 package com.NetworkDeviceMS.NetworkDeviceManagementSystem.DeviceService;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,22 @@ public class DeviceServiceimple implements DeviceService {
 			throw new ResourceNotFoundException("The source which you trying to delete is not found");
 		}
 	}
+     
+	public long getDeviceCount() {
+        return deviceRepository.count();
+    }
 
+    public Map<String, Long> getDeviceBrandDistribution() {
+        List<Device> devices = deviceRepository.findAll();
+        Map<String, Long> brandDistribution = new HashMap<>();
+
+        for (Device device : devices) {
+            String brand = device.getBrand();
+            brandDistribution.put(brand, brandDistribution.getOrDefault(brand, 0L) + 1);
+        }
+
+        return brandDistribution;
+    }
 	
 	
 
