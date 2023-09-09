@@ -44,11 +44,17 @@ Get Method for get count of devices
 #database configuration for emp DB
 
 spring.datasource.url=jdbc:mysql://localhost:3306/emp
+
 spring.datasource.username=root
+
 spring.datasource.password=root
+
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
 spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+
 spring.jpa.hibernate.ddl-auto=update
+
 spring.jpa.properties.hibernate.dialecy=org.hibernate.dialect.MySQL8Dialect
 
 
